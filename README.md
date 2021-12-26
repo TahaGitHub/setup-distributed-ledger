@@ -1,4 +1,4 @@
-# dec-sys-node
+# Setup disttibuted ledger
 
 Setup node:
 
