@@ -1,4 +1,4 @@
-# Setup disttibuted ledger
+# setup distributed ledger
 
 Setup node:
 
