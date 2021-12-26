@@ -11,5 +11,5 @@ setup file will install all libraries needed like:
 - download fluree-1.0.0-beta11.zip
 - clone code node
 
-- run-node.sh
+-- run-node.sh
 
