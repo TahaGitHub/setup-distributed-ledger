@@ -34,11 +34,11 @@ fi
 
 echo '\n'-------------------------------------------------------------------'\n'
 if [ ! -x "$(command -v java)" ]; then
-    echo "Installing JAVA 8"
-    sudo apt-get install --yes openjdk-8-jdk
-    sudo update-alternatives --set java /usr/lib/jvm/java-1.8.0-openjdk-*/bin/java
+    echo "Installing default JAVA"
+    sudo apt-get install --yes default-jre
 else
-    echo "JAVA found, Check if Java 8 >> openjdk-8-jdk << using"
+    echo "JAVA found, Check if Java minimin 11"
+    java -version
 fi
 
 echo '\n'-------------------------------------------------------------------'\n'
@@ -52,16 +52,6 @@ else
     node --version
 fi
 
-# echo '\n'-------------------------------------------------------------------'\n'
-# if [ ! -x "$(command -v ansible)" ]; then
-#     echo "Installing ansible"
-#     apt install --yes software-properties-common
-#     add-apt-repository --yes --update ppa:ansible/ansible
-#     apt-get install --yes ansible
-# else 
-#     echo "Andible found"
-# if
-
 echo '\n'-------------------------------------------------------------------'\n'
 NODEDIR="$HOME/node"
 if [ ! -d "$NODEDIR" ]; then
@@ -74,14 +64,12 @@ if [ ! -d "$FLUREEDIR" ]; then
     cd $NODEDIR
     if [ ! -e $NODEDIR/fluree-*.zip ]; then
         echo "Downloading fluree..."
-        wget https://s3.amazonaws.com/fluree-releases-public/fluree-stable.zip
+        wget https://s3.amazonaws.com/fluree-releases-public/fluree-1.0.0-beta11.zip
     fi
 
     echo "Unziping fluree..."
-    unzip fluree-*.zip -d $NODEDIR 
     mkdir -m777 $FLUREEDIR
-    mv $NODEDIR/fluree*/* $FLUREEDIR
-    rm -r $NODEDIR/fluree-*/
+    unzip fluree-*.zip -d $FLUREEDIR
     cd ..
 else 
     echo "Fluree folder found in Home path"
