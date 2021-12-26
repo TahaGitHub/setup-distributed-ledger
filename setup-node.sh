@@ -71,11 +71,14 @@ fi
 
 FLUREEDIR="$NODEDIR/fluree/"
 if [ ! -d "$FLUREEDIR" ]; then
-    echo "Downloading and unziping fluree"
     cd $NODEDIR
-    rm -r $NODEDIR/fluree-*.zip
-    wget https://s3.amazonaws.com/fluree-releases-public/fluree-stable.zip
-    unzip fluree*.zip -d $NODEDIR    
+    if [ ! -e $NODEDIR/fluree-*.zip ]; then
+        echo "Downloading fluree..."
+        wget https://s3.amazonaws.com/fluree-releases-public/fluree-stable.zip
+    fi
+
+    echo "Unziping fluree..."
+    unzip fluree-*.zip -d $NODEDIR 
     mkdir -m777 $FLUREEDIR
     mv $NODEDIR/fluree*/* $FLUREEDIR
     rm -r $NODEDIR/fluree-*/
