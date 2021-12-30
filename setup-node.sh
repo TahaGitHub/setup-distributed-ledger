@@ -33,22 +33,26 @@ else
 fi
 
 echo '\n'-------------------------------------------------------------------'\n'
-if [ ! -x "$(command -v java)" ]; then
-    echo "Installing default JAVA"
-    sudo apt-get install --yes default-jre
+if [ "$(java -version 2>&1 | head -n 1 | cut -d\" -f 2)" \< 11 ]; then
+    echo "Java version is less that 11 need to install 11 version"
+    echo "Installing 11 JAVA..."
+    sudo add-apt-repository --yes ppa:openjdk-r/ppa
+    sudo apt-get update
+    sudo apt install --yes openjdk-11-jdk
 else
-    echo "JAVA found, Check if Java minimin 11"
+    echo "Java found && it's version equal or up to v11"
     java -version
 fi
 
 echo '\n'-------------------------------------------------------------------'\n'
-if [ ! -x "$(command -v node)" ]; then
+if [ ! -x "$(command -v node)" ] || [ ! $(expr $(node -v) : ".*v16.*") -ne 0 ]; then
+    echo "Node Js version is not found or less that 16 version"
     echo "Installing Node Js"
     curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
     sudo apt-get update
     sudo apt-get install --yes nodejs
 else
-    echo "Node Js found. Check if node version is 16 V"
+    echo "Node Js found && it's version equal or up to v16"
     node --version
 fi
 
@@ -64,7 +68,7 @@ if [ ! -d "$FLUREEDIR" ]; then
     cd $NODEDIR
     if [ ! -e $NODEDIR/fluree-*.zip ]; then
         echo "Downloading fluree..."
-        wget https://s3.amazonaws.com/fluree-releases-public/fluree-1.0.0-beta11.zip
+        wget https://s3.amazonaws.com/fluree-releases-public/fluree-latest.zip
     fi
 
     echo "Unziping fluree..."
@@ -97,10 +101,11 @@ fi
 
 echo '\n'-------------------------------------------------------------------'\n'
 echo "Install npm and running"
-npm install
+sudo npm install
 
 echo '\n'-------------------------------------------------------------------'\n'
 echo "There 3 type for node: main-master, master, worker\nNode type is $1"
 echo '\n'-------------------------------------------------------------------'\n'
 echo "Running..."
-$DIR/run-node.sh $1
+cd $DIR
+./run-node.sh $1
