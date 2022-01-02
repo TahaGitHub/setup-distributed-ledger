@@ -1,7 +1,5 @@
 #!/bin/sh
 
-DIR=`pwd`
-
 sudo apt-get update
 
 echo '\n'-------------------------------------------------------------------'\n'
@@ -107,5 +105,4 @@ echo '\n'-------------------------------------------------------------------'\n'
 echo "There 3 type for node: main-master, master, worker\nNode type is $1"
 echo '\n'-------------------------------------------------------------------'\n'
 echo "Running..."
-cd $DIR
 ./run-node.sh $1
